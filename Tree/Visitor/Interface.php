@@ -4,9 +4,9 @@
  * Interface for implementations that want to process a tree using 
  * the visitor design pattern.
  * 
- * @category   Tree
- * @package    Visitor
- * @author 	   andy.roberts
+ * @category	Tree
+ * @package		Visitor
+ * @author		andy.roberts
  */
 interface Tree_Visitor_Interface
 {

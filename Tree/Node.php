@@ -12,9 +12,9 @@ require_once dirname(__FILE__) . '\Visitor\Visitable.php';
  * Accepts Tree_Visitor_Interface for formatting the layout of each
  * node, as per the visitor pattern.
  * 
- * @package 	Tree
- * @subpackage 	Composite
- * @author 		andy.roberts
+ * @package		Tree
+ * @subpackage	Composite
+ * @author		andy.roberts
  */
 class Tree_Node implements Tree_Composite_Interface, Tree_Visitor_Visitable
 {

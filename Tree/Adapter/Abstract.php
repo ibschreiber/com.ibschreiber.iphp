@@ -2,8 +2,8 @@
 /**
  * An abstract class for all tree graph implementations
  * 
- * @package Tree
- * @author 	andy.roberts
+ * @package	Tree
+ * @author	andy.roberts
  */
 abstract class Tree_Adapter_Abstract
 {

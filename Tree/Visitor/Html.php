@@ -6,9 +6,9 @@ require_once dirname(__FILE__) . '/Interface.php';
  * An implementation of the Tree_Visitor interface that generates
  * a HTML representation of a tree structure.
  * 
- * @package 	Tree
- * @subpackage 	Visitor
- * @author 		andy.roberts
+ * @package		Tree
+ * @subpackage	Visitor
+ * @author		andy.roberts
  */
 class Tree_Visitor_Html implements Tree_Visitor_Interface
 {
@@ -49,15 +49,15 @@ class Tree_Visitor_Html implements Tree_Visitor_Interface
     }
 
     /**
-     * This methods loops over all the node's children and adds the 
-     * correct layout format for each node.
+     * Loops over all the node's children and add correct layout format 
+     * for each node.
      *
      * @param string $id
      * @param string $ident
      *
      * @return string
      */
-    private function _traverseChildren($id, $indent = 0)
+    private function _traverse($id, $indent = 0)
     {
         $html = '';
         
@@ -74,7 +74,7 @@ class Tree_Visitor_Html implements Tree_Visitor_Interface
                 
                 if (isset($this->_nodes[$id])) {
                     $html .= "<li>{$node->getName()}\n";
-                    $html .= $this->_traverseChildren($id, $indent + 2);
+                    $html .= $this->_traverse($id, $indent + 2);
                     $html .= str_repeat('  ', $indent + 2);
                     $html .= "</li>\n";
                 } else {
@@ -97,8 +97,7 @@ class Tree_Visitor_Html implements Tree_Visitor_Interface
     public function __toString()
     {
         $tree = $this->_rootNode->getName() . "\n";
-        ;
-        $tree .= $this->_traverseChildren($this->_rootNode->getId());
+        $tree .= $this->_traverse($this->_rootNode->getId());
         return $tree;
     }
 }

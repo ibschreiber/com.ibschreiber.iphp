@@ -9,9 +9,9 @@ require_once dirname(__FILE__) . '\..\Exception.php';
  * consists of pairs of nodes, each pair represents a 
  * parent-child relationship.
  * 
- * @package 	Tree
- * @subpackage 	Adapter
- * @author 		andy.roberts
+ * @package		Tree
+ * @subpackage	Adapter
+ * @author		andy.roberts
  */
 class Tree_Adapter_AdjacencyList extends Tree_Adapter_Abstract
 {

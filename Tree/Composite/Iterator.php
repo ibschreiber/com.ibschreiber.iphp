@@ -5,7 +5,7 @@
  *
  * @category	Tree
  * @package		Composite
- * @author 		andy.roberts
+ * @author		andy.roberts
  */
 class Tree_Composite_Iterator implements RecursiveIterator
 {
@@ -26,7 +26,7 @@ class Tree_Composite_Iterator implements RecursiveIterator
         $this->_node = $node->getChildren();
     }
 
-    /*
+    /**
      * Rewinds the internal pointer back to the start of the node list
      * 
      * @return void;
