@@ -8,14 +8,13 @@ require_once 'Ingot/JQuery/JqGrid/Plugin/Abstract.php';
 /**
  * Display a search filter on each column
  *
- * @package    Ingot_JQuery_JqGrid
- * @copyright  Copyright (c) 2005-2009 Warrant Group Ltd. (http://www.warrant-group.com)
- * @author	   Andy Roberts
+ * @package Ingot_JQuery_JqGrid
+ * @copyright Copyright (c) 2005-2009 Warrant Group Ltd. (http://www.warrant-group.com)
+ * @author Andy Roberts
  */
 
 class Ingot_JQuery_JqGrid_Plugin_ToolbarFilter extends Ingot_JQuery_JqGrid_Plugin_Abstract
 {
-
     protected $_options;
 
     public function __construct($options = array())

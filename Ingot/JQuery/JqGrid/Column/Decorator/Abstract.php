@@ -3,13 +3,18 @@
 /**
  * JqGrid Column Decorator Abstract
  * 
- * @package    Ingot_JQuery_JqGrid
- * @copyright  Copyright (c) 2005-2009 Warrant Group Ltd. (http://www.warrant-group.com)
- * @author	   Andy Roberts
+ * @package Ingot_JQuery_JqGrid
+ * @copyright Copyright (c) 2005-2009 Warrant Group Ltd. (http://www.warrant-group.com)
+ * @author Andy Roberts
  */
 
 abstract class Ingot_JQuery_JqGrid_Column_Decorator_Abstract
 {
+    /**
+     * Column Instance
+     * 
+     * @var $_column Ingot_JQuery_JqGrid_Column
+     */
     protected $_column;
 
     public function __construct(Ingot_JQuery_JqGrid_Column $column)
@@ -17,7 +22,7 @@ abstract class Ingot_JQuery_JqGrid_Column_Decorator_Abstract
         $this->_column = $column;
     }
 
-    /*
+    /**
 	 * Get the column field name
 	 * 
 	 * @return string
@@ -48,7 +53,7 @@ abstract class Ingot_JQuery_JqGrid_Column_Decorator_Abstract
         return $this->_column->getOption($name);
     }
 
-    /*
+    /**
      * Get a single column option
      * 
      * @return mixed
@@ -58,7 +63,7 @@ abstract class Ingot_JQuery_JqGrid_Column_Decorator_Abstract
         $this->_column->getOption($name);
     }
 
-    /*
+    /**
      * Set a single column option
      * 
      * @return Ingot_JQuery_JqGrid_Column
@@ -68,7 +73,7 @@ abstract class Ingot_JQuery_JqGrid_Column_Decorator_Abstract
         $this->_column->getOption($name, $value);
     }
 
-    /*
+    /**
      * Get all column options
      * 
      * @return array

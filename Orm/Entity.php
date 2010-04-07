@@ -1,9 +1,8 @@
 <?php
-
 /**
  * Object Relational Mapper
  * 
- * Entity Abstract
+ * Entity
  *
  * @category  Orm
  * @package   Entity
@@ -13,25 +12,12 @@
 abstract class Orm_Entity {
 	
 	protected $_id;
-	protected $_field;
-	
-	/**
-	 * This method will allow this class to be serialized
-	 * 
-	 * @return array
-	*/
 
-	public function __sleep() {
-		return array_keys( (array) $this );
-	}
-	
 	/**
 	 * Allow overloading which is invoked when interacting with methods 
-	 * that have not been declared. This is benefical as a domain object 
-	 * can have its member variables set, and any calls to set or get 
-	 * will be automatically overloaded.
+	 * that have not been declared. 
 	 * 
-	 * @return boolean
+	 * @return void
 	 */
 	
 	public function __call( $method, $args ) {
@@ -40,18 +26,16 @@ abstract class Orm_Entity {
 			$var = Orm_Inflector::lcfirst($found[1]);
 			if (property_exists($this, $var)){
 				$this->{$var} = $args[0];
-				return true;
 			}
 		}
-		elseif(preg_match( "/get(.*)/", $method, $found )) {
-			
+		elseif(preg_match( "/get(.*)/", $method, $found )) {	
 			$var = Orm_Inflector::lcfirst($found[1]);
 			if (property_exists($this, $var)){
 				return $this->{$var};
 			}
 		}
 		
-		return false;
+		return;
 	}
 	
 	/**

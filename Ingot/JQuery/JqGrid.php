@@ -6,14 +6,14 @@
  * 
  * jqGrid uses the jQuery javascript library. 
  *
- * @see			http://www.trirand.com/blog/
- * @package		Ingot_JQuery_JqGrid
- * @copyright	Copyright (c) 2005-2009 Warrant Group Ltd. (http://www.warrant-group.com)
- * @author		Andy Roberts
+ * @see http://www.trirand.com/blog/
+ * @package Ingot_JQuery_JqGrid
+ * @copyright Copyright (c) 2005-2009 Warrant Group Ltd. (http://www.warrant-group.com)
+ * @author Andy Roberts
  */
 class Ingot_JQuery_JqGrid
 {
-    /*
+    /**
      * The unique id assigned to the grid
      * 
      * @var string
@@ -58,14 +58,14 @@ class Ingot_JQuery_JqGrid
      */
     protected $_paginator = null;
 
-    /*
+    /**
      * Default item count per page
      * 
      * @var int
      */
     protected $_defaultItemCountPerPage = 20;
 
-    /*
+    /**
      * The shorthand search operator provided by jqgrid will be 
      * converted to a more readable format, to provide a standard
      * expression set for use within the adapters.
@@ -131,7 +131,7 @@ class Ingot_JQuery_JqGrid
         $this->_plugins->registerPlugin(new Ingot_JQuery_JqGrid_Plugin_Pager());
     }
 
-    /*
+    /**
      * Get unique grid identifier
      * 
      * @return string
@@ -185,7 +185,7 @@ class Ingot_JQuery_JqGrid
         return $this->getOption($name);
     }
 
-    /*
+    /**
      * Set a single grid option
      * 
      * @return Ingot_JQuery_JqGrid
@@ -210,7 +210,7 @@ class Ingot_JQuery_JqGrid
         return $this;
     }
 
-    /*
+    /**
      * Get a single grid option
      * 
      * @return mixed
@@ -224,7 +224,7 @@ class Ingot_JQuery_JqGrid
         }
     }
 
-    /*
+    /**
      * Get all grid options
      * 
      * @return array

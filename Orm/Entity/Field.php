@@ -14,14 +14,12 @@
 class Orm_Entity_Field
 {
     protected $_name;
-    protected $_original;
     protected $_primary;
     
-    public function __construct( $name, array $details )
+    public function __construct( array $field )
     {
-        $this->_name	 = $name;
-        $this->_original = $details['COLUMN_NAME'];
-        $this->_primary	 = $details['PRIMARY'];
+        $this->_name	 = $field['COLUMN_NAME'] );
+        $this->_primary	 = $field['PRIMARY'];
     }
 
     /**
@@ -34,15 +32,6 @@ class Orm_Entity_Field
         return $this->_name;
     }
     
-    /**
-     * Gets the original name
-     *
-     * @return string
-     */
-    public function getOriginalName()
-    {
-        return $this->_original;
-    }
     
     /**
      * Determine if the field is part of a primary key

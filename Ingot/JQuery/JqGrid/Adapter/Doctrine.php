@@ -13,9 +13,9 @@ require_once 'Ingot/JQuery/JqGrid/Adapter/Interface.php';
 /**
  * JqGrid Doctrine Adapter
  * 
- * @package		Ingot_JQuery_JqGrid
- * @copyright	Copyright (c) 2005-2009 Warrant Group Ltd. (http://www.warrant-group.com)
- * @author		andy.roberts
+ * @package Ingot_JQuery_JqGrid
+ * @copyright Copyright (c) 2005-2009 Warrant Group Ltd. (http://www.warrant-group.com)
+ * @author andy.roberts
  */
 
 class Ingot_JQuery_JqGrid_Adapter_Doctrine extends ZendX_Doctrine_Paginator_Adapter_Doctrine implements Ingot_JQuery_JqGrid_Adapter_Interface

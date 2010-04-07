@@ -3,15 +3,32 @@
 /**
  * Plugin Abstract
  *
- * @package    Ingot_JQuery_JqGrid
- * @copyright  Copyright (c) 2005-2009 Warrant Group Ltd. (http://www.warrant-group.com)
- * @author	   Andy Roberts
+ * @package Ingot_JQuery_JqGrid
+ * @copyright Copyright (c) 2005-2009 Warrant Group Ltd. (http://www.warrant-group.com)
+ * @author Andy Roberts
  */
 
 abstract class Ingot_JQuery_JqGrid_Plugin_Abstract
 {
+    /**
+     * Grid Instance
+     * 
+     * @var Ingot_JQuery_JqGrid
+     */
     protected $_grid;
+    
+    /**
+     * Grid Data Instance
+     * 
+     * @var object
+     */
     protected $_gridData;
+    
+    /**
+     * View Instance
+     * 
+     * @var Zend_View
+     */
     protected $_view;
 
     /**

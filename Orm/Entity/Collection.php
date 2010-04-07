@@ -29,14 +29,12 @@ class Orm_Entity_Collection implements Iterator, Countable {
 	public function load($metadata) {
 		
 		foreach ( $metadata as $fields ) {
-			
-			$camelized = Orm_Inflector::camelize ( $fields ['COLUMN_NAME'] );
-			
-			$field = new Orm_Entity_Field ( $camelized, $fields );
-			$this->_fields [$fields ['COLUMN_NAME']] = $field;
+		    
+			$field = new Orm_Entity_Field ( $fields );
+			$this->_fields [] = $field;
 			
 			if ($field->isPrimary ()) {
-				$this->_primary [] = $camelized;
+				$this->_primary [] = $field;
 			}
 		}
 	}

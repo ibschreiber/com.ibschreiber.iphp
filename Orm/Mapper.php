@@ -162,11 +162,9 @@ abstract class Orm_Mapper extends Orm_Mapper_Abstract
      * @return string
      */
     
-    public function update(Orm_Domain_Object $obj)
+    public function update(Orm_Entity $obj)
     {
-        
-        $stmt = array();
-        
+        $stmt = array();   
         $fieldCollection = new Orm_Entity_Collection($this->_findMetaDataFromTable());
         
         foreach ($fieldCollection->getFieldNames() as $field) {
@@ -187,7 +185,7 @@ abstract class Orm_Mapper extends Orm_Mapper_Abstract
     public function delete($id)
     {
         
-        if ($id instanceof Orm_Domain_Object) {
+        if ($id instanceof Orm_Entity) {
             $id = $id->getId();
         }
         

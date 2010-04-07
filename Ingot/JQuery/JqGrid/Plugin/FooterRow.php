@@ -8,9 +8,9 @@ require_once 'Ingot/JQuery/JqGrid/Plugin/Abstract.php';
 /**
  * Display a footer row on grid, which can aggregate column values
  *
- * @package    Ingot_JQuery_JqGrid
- * @copyright  Copyright (c) 2005-2009 Warrant Group Ltd. (http://www.warrant-group.com)
- * @author	   Andy Roberts
+ * @package Ingot_JQuery_JqGrid
+ * @copyright Copyright (c) 2005-2009 Warrant Group Ltd. (http://www.warrant-group.com)
+ * @author Andy Roberts
  */
 
 class Ingot_JQuery_JqGrid_Plugin_FooterRow extends Ingot_JQuery_JqGrid_Plugin_Abstract
@@ -40,7 +40,6 @@ class Ingot_JQuery_JqGrid_Plugin_FooterRow extends Ingot_JQuery_JqGrid_Plugin_Ab
 
     public function preResponse()
     {
-        
         $columns = array_values($this->_grid->getColumns());
         
         if (count($this->_columns) > 0) {
@@ -101,8 +100,9 @@ class Ingot_JQuery_JqGrid_Plugin_FooterRow extends Ingot_JQuery_JqGrid_Plugin_Ab
     /**
      * Add column aggregate
      * 
-     * @param unknown_type $column
-     * @param unknown_type $aggregate
+     * @param mixed $column Name of column
+     * @param mixed $aggregate Aggregate operator
+     * @param array $options Array of options
      */
     public function addAggregate($column, $aggregate, $options = array())
     {
@@ -124,16 +124,12 @@ class Ingot_JQuery_JqGrid_Plugin_FooterRow extends Ingot_JQuery_JqGrid_Plugin_Ab
     /**
      * Perform aggregate functions on a specfic column
      * 
-     * @param unknown_type $column
-     * @param unknown_type $aggregate
-     * @param unknown_type $value
+     * @param string $name Column name
+     * @param string $aggregate Aggregate Operator
+     * @param string $value Column value
      */
-    protected function _createSummaryRow($column, $value)
+    protected function _createSummaryRow($name, $aggregate, $value)
     {
-        
-        $name = $column['name'];
-        $aggregate = $column['aggregate'];
-        
         if (isset($aggregate)) {
             switch (strtoupper($aggregate)) {
                 case 'SUM':
@@ -164,8 +160,5 @@ class Ingot_JQuery_JqGrid_Plugin_FooterRow extends Ingot_JQuery_JqGrid_Plugin_Ab
                     break;
             }
         }
-        
-        return $column['label'];
     }
-
 }
