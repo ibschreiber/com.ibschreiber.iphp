@@ -78,7 +78,7 @@ class Ingot_JQuery_JqGrid_Adapter_DbSelect extends Zend_Paginator_Adapter_DbSele
         return $this->_select->where($field . ' ' . $this->_operator[$expression], $this->_setWildCardInValue($expression, $value));
     }
 
-    /**
+       /**
      * Multiple filtering
      * 
      * @return
@@ -88,11 +88,11 @@ class Ingot_JQuery_JqGrid_Adapter_DbSelect extends Zend_Paginator_Adapter_DbSele
         
         $boolean = strtoupper($options['boolean']);
         
-        foreach ($rules as $rule) {
+        foreach ($rules['field'] as $key=>$rule) {
             if ($boolean == 'OR') {
-                $this->_select->orWhere($rule['field'] . ' ' . $this->_operator[$rule['expression']], $this->_setWildCardInValue($rule['expression'], $value));
+                $this->_select->orWhere($rule . ' ' . $this->_operator[$rules['expression'][$key]], $this->_setWildCardInValue($rules['expression'][$key], $rules['value'][$key]));
             } else {
-                $this->_select->where($rule['field'] . ' ' . $this->_operator[$rule['expression']], $this->_setWildCardInValue($rule['expression'], $value));
+                $this->_select->where($rule. ' ' . $this->_operator[$rules['expression'][$key]], $this->_setWildCardInValue($rules['expression'][$key], $rules['value'][$key]));
             }
         }
     }
