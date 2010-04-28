@@ -45,8 +45,10 @@ class Ingot_JQuery_JqGrid_Column
         $this->_name = $name;
         $this->_options = $options;
         $this->_options['name'] = $this->_name;
-        $this->_options['label'] = ucwords(str_replace("_", " ", $this->_name));
-    }
+        if (empty ( $this->_options ['label'] )) {
+			$this->_options ['label'] = ucwords ( str_replace ( "_", " ", $this->_name ) );
+		}
+}
 
     /*
 	 * Get the column field name
