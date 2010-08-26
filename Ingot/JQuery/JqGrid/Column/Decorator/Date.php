@@ -44,6 +44,6 @@ class Ingot_JQuery_JqGrid_Column_Decorator_Date extends Ingot_JQuery_JqGrid_Colu
         }
         
         $this->_column->setOption('formatter', 'date');
-        $this->_column->setOption('formatoptions', $_this->options);
+        $this->_column->setOption('formatoptions', $this->_options);
     }
 }
