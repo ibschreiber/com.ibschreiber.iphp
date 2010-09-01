@@ -421,7 +421,6 @@ class Ingot_JQuery_JqGrid
         
         // Fetch a row of items from the adapter
         $rows = $this->_paginator->getCurrentItems();
-        
         $grid = new stdClass();
         $grid->page = $this->_paginator->getCurrentPageNumber();
         $grid->total = $this->_paginator->getItemCountPerPage();
@@ -435,9 +434,11 @@ class Ingot_JQuery_JqGrid
             }
             
             $grid->rows[$k]['cell'] = array();
+
+            $encoding = $this->getView()->getEncoding();
             
             foreach ($this->_columns as $column) {
-                array_push($grid->rows[$k]['cell'], $column->cellValue($row));
+                array_push($grid->rows[$k]['cell'], $column->cellValue($row, $encoding));
             }
         }
         return $grid;

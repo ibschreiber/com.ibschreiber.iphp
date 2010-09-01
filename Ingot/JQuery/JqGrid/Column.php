@@ -140,10 +140,11 @@ class Ingot_JQuery_JqGrid_Column
      * cells in row data.
      * 
      * @param $row Row array containing column cell value
+     * @param $encoding Encondig for use in htmlentities
      * @return mixed
      */
-    public function cellValue($row)
+    public function cellValue($row, $encoding = 'ISO-8859-1')
     {
-        return htmlentities($row[$this->getName()]);
+        return htmlentities($row[$this->getName()], ENT_COMPAT, $encoding);
     }
 }
