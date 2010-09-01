@@ -58,10 +58,9 @@ class Ingot_JQuery_JqGrid_Adapter_Doctrine extends ZendX_Doctrine_Paginator_Adap
      */
     public function filter($field, $value, $expression, $options = array())
     {
-        
-        if (! array_key_exists($expression, $this->_operator)) {
-            return;
-        }
+        #if (! array_key_exists($expression, $this->_operator)) {
+        #    return;
+        #}
         
         if (isset($options['multiple'])) {
             return $this->_multiFilter(array(
@@ -84,12 +83,11 @@ class Ingot_JQuery_JqGrid_Adapter_Doctrine extends ZendX_Doctrine_Paginator_Adap
     {
         
         $boolean = strtoupper($options['boolean']);
-        
-        foreach ($rules as $rule) {
+        foreach ($rules['field'] as $key=>$rule) {
             if ($boolean == 'OR') {
-                $this->_query->orWhere($rule['field'] . ' ' . $this->_operator[$rule['expression']], $this->_setWildCardInValue($rule['expression'], $value));
+                $this->_query->orWhere($rules['field'][$key] . ' ' . $this->_operator[$rules['expression'][$key]], $this->_setWildCardInValue($rules['expression'][$key], $rules['value'][$key]));
             } else {
-                $this->_query->addWhere($rule['field'] . ' ' . $this->_operator[$rule['expression']], $this->_setWildCardInValue($rule['expression'], $value));
+                $this->_query->addWhere($rules['field'][$key] . ' ' . $this->_operator[$rules['expression'][$key]], $this->_setWildCardInValue($rules['expression'][$key], $rules['value'][$key]));
             }
         }
     }
