@@ -423,7 +423,7 @@ class Ingot_JQuery_JqGrid
         $rows = $this->_paginator->getCurrentItems();
         $grid = new stdClass();
         $grid->page = $this->_paginator->getCurrentPageNumber();
-        $grid->total = $this->_paginator->getItemCountPerPage();
+        $grid->total = $this->_paginator->count();
         $grid->records = $this->_paginator->getTotalItemCount();
         $grid->rows = array();
         
