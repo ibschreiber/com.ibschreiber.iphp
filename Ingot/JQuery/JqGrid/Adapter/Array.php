@@ -94,6 +94,8 @@ class Ingot_JQuery_JqGrid_Adapter_Array extends Zend_Paginator_Adapter_Array imp
                     break;
             }
         }
+
+        $this->_count = count($this->_array);
     }
 
     /**
@@ -110,6 +112,8 @@ class Ingot_JQuery_JqGrid_Adapter_Array extends Zend_Paginator_Adapter_Array imp
                 unset($this->_array[$row]);
             }
         }
+
+        $this->_count = count($this->_array);
     }
 
     /**
