@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @see Ingot_JQuery_JqGrid_Plugin_Abstract
  */
@@ -19,14 +18,14 @@ class Ingot_JQuery_JqGrid_Plugin_FooterRow extends Ingot_JQuery_JqGrid_Plugin_Ab
     protected $_columns = array();
     protected $_userData = array();
     
-    const SUM = 'sum';
-    const COUNT = 'count';
-    const AVERAGE = 'avg';
-    const AVG = 'avg';
-    const MINIMUM = 'min';
-    const MIN = 'min';
-    const MAXIMUM = 'max';
-    const MAX = 'max';
+    const SUM = 'SUM';
+    const COUNT = 'COUNT';
+    const AVERAGE = 'AVERAGE';
+    const AVG = 'AVG';
+    const MINIMUM = 'MINIMUM';
+    const MIN = 'MIN';
+    const MAXIMUM = 'MAXIMUM';
+    const MAX = 'MAX';
 
     public function preRender()
     {
@@ -49,7 +48,7 @@ class Ingot_JQuery_JqGrid_Plugin_FooterRow extends Ingot_JQuery_JqGrid_Plugin_Ab
                     $columnName = $columns[$k]->getName();
                     
                     if (array_key_exists($columnName, $this->_columns)) {
-                        $this->_createSummaryRow($this->_columns[$columnName], $cell);
+                        $this->_createSummaryRow($this->_columns[$columnName]['name'],$this->_columns[$columnName]['aggregate'], $cell);
                     }
                 }
             }
@@ -132,25 +131,28 @@ class Ingot_JQuery_JqGrid_Plugin_FooterRow extends Ingot_JQuery_JqGrid_Plugin_Ab
     {
         if (isset($aggregate)) {
             switch (strtoupper($aggregate)) {
-                case 'SUM':
+                case self::SUM:
                     $this->_userData[$name] += $value;
                     break;
                 
-                case 'COUNT':
+                case self::COUNT:
                     $this->_userData[$name] += 1;
                     break;
                 
-                case 'MIN':
+                case self::MINIMUM:
+                case self::MIN:
                     $this->_columns[$name][$aggregate][] = $value;
                     $this->_userData[$name] = min($this->_columns[$name][$aggregate]);
                     break;
                 
-                case 'MAX':
+                case self::MAXIMUM:
+                case self::MAX:
                     $this->_columns[$name][$aggregate][] = $value;
                     $this->_userData[$name] = max($this->_columns[$name][$aggregate]);
                     break;
                 
-                case 'AVG':
+                case self::AVERAGE:
+                case self::AVG:
                     $this->_columns[$name][$aggregate][] = $value;
                     $this->_userData[$name] = array_sum($this->_columns[$name][$aggregate]) / count($this->_columns[$name][$aggregate]);
                     break;
