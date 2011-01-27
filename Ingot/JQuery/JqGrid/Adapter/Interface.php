@@ -16,7 +16,7 @@ interface Ingot_JQuery_JqGrid_Adapter_Interface
      * @param string $direction Sort direction: 'ASC' or 'DESC'
      * @access public                          
      */
-    public function sort($field, $direction);
+    public function sort(Zend_Db_Expr $field, $direction);
 
     /**
      * Filter records

@@ -78,8 +78,9 @@ class Ingot_JQuery_JqGrid_Plugin_ToolbarFilter extends Ingot_JQuery_JqGrid_Plugi
 					// Recursive call
 					$strOptions .= '"' . $strPropertyKey . '":' . $this->encodeJsonOptions ( $mixProperty );
 				} else {
-					//					$strOptions .= '"' . $strPropertyKey . '":' . ZendX_JQuery::encodeJson ( $mixProperty );
-					$strOptions .= '"' . $strPropertyKey . '":' . custom_json::encode ( $mixProperty );
+					// @TODO add option to switch what JSON to use.
+					$strOptions .= '"' . $strPropertyKey . '":' . ZendX_JQuery::encodeJson ( $mixProperty );
+					//$strOptions .= '"' . $strPropertyKey . '":' . custom_json::encode ( $mixProperty );
 				}
 			
 			}
