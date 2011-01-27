@@ -40,8 +40,9 @@ class Ingot_JQuery_JqGrid_Column_Decorator_Link extends Ingot_JQuery_JqGrid_Colu
         if (! isset($this->_options['link'])) {
             throw new Ingot_JQuery_JqGrid_Exception('A valid link must be supplied.');
         }
-        
-        if (! is_array($this->_options['column']) && isset($this->_options['column'])) {
+        if (!isset($this->_options['column']))  {
+        	$this->_options['column'] = array();
+        }	elseif ( (isset($this->_options['column']) && ! is_array($this->_options['column']))) {
             $this->_options['column'] = array(
                 
                 $this->_options['column']

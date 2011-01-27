@@ -29,9 +29,11 @@ class Ingot_JQuery_JqGrid_Adapter_Array extends Zend_Paginator_Adapter_Array imp
     public function sort($field, $direction)
     {
         $sort = array();
+        $count = count($this->_array);
         
-		Foreach($this->_array as $i=>$item){            
-			$sort[$i] = strtolower($item[$field]);
+        for ($i = 0; $i < $count; $i ++) {
+            $item = (array) $this->_array[$i];
+            $sort[$i] = $item[$field];
         }
         
         array_multisort($sort, ($direction == 'desc') ? SORT_DESC : SORT_ASC, $this->_array);

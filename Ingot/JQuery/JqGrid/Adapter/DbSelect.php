@@ -45,10 +45,12 @@ class Ingot_JQuery_JqGrid_Adapter_DbSelect extends Zend_Paginator_Adapter_DbSele
     public function sort($field, $direction)
     {
         if (isset($field)) {
-            $this->_select->order(array(
-                
-                $field . ' ' . $direction
-            ));
+        	// Bypas becouse of the grouping
+        	$arrSortList = explode(",",$field);
+        	
+        	$arrSortList[count($arrSortList)-1] .= ' ' . $direction;
+        	
+            $this->_select->order($arrSortList);
         }
     }
 
@@ -61,10 +63,11 @@ class Ingot_JQuery_JqGrid_Adapter_DbSelect extends Zend_Paginator_Adapter_DbSele
      */
     public function filter($field, $value, $expression, $options = array())
     {
-        
-        if (! array_key_exists($expression, $this->_operator)) {
-            return;
-        }
+//    	$strKey = $expression[0];
+//       $boolTest =  array_key_exists(array($strKey,'NOT_CONTAIN'), $this->_operator);
+//        if (! array_key_exists($expression, $this->_operator)) {
+//            return;
+//        }
         
         if (isset($options['multiple'])) {
             return $this->_multiFilter(array(
@@ -78,7 +81,7 @@ class Ingot_JQuery_JqGrid_Adapter_DbSelect extends Zend_Paginator_Adapter_DbSele
         return $this->_select->where($field . ' ' . $this->_operator[$expression], $this->_setWildCardInValue($expression, $value));
     }
 
-       /**
+    /**
      * Multiple filtering
      * 
      * @return

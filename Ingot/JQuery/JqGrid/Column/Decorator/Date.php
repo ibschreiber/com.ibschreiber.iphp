@@ -43,7 +43,39 @@ class Ingot_JQuery_JqGrid_Column_Decorator_Date extends Ingot_JQuery_JqGrid_Colu
             $this->_options['newformat'] = 'l, F d, Y';
         }
         
+        $arrOptions = $this->_options;
+        
+        if (!empty($arrOptions['informat'])){
+        	unset($arrOptions['informat']);
+        }
+        
         $this->_column->setOption('formatter', 'date');
-        $this->_column->setOption('formatoptions', $this->_options);
+        $this->_column->setOption('formatoptions', $arrOptions);
     }
+    
+    public function cellValue($arrRow){
+    	$strValue = parent::cellValue($arrRow);
+    	
+        $arrOptions = $this->_options;
+        
+        if (!empty($arrOptions['informat'])){
+        	switch ($arrOptions['informat']) {
+        		case 'YYYYMM':
+        			
+        			break;
+        		
+        		case 'timestamp':
+        		default:
+        			// Do nothing the data is allready in the correct format
+      
+        		break;
+        	}
+        	
+        	$strValue = date($arrOptions['srcformat'],$strValue);
+        }
+        
+        return $strValue;
+    	    	
+    }
+    
 }

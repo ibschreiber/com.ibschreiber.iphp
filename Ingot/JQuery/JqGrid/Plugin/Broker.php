@@ -174,6 +174,7 @@ class Ingot_JQuery_JqGrid_Plugin_Broker extends Ingot_JQuery_JqGrid_Plugin_Abstr
         foreach ($this->_plugins as $plugin) {
             $plugin->setGridData($this->_gridData);
             $plugin->setView($this->_view);
+            $plugin->setOptions($this->getOptions());
             $plugin->preResponse();
         }
     }
@@ -188,6 +189,7 @@ class Ingot_JQuery_JqGrid_Plugin_Broker extends Ingot_JQuery_JqGrid_Plugin_Abstr
         foreach ($this->_plugins as $plugin) {
             $plugin->setGridData($this->_gridData);
             $plugin->setView($this->_view);
+            $plugin->setOptions($this->getOptions());
             $plugin->postResponse();
         }
     }
@@ -204,6 +206,7 @@ class Ingot_JQuery_JqGrid_Plugin_Broker extends Ingot_JQuery_JqGrid_Plugin_Abstr
     {
         foreach ($this->_plugins as $plugin) {
             $plugin->setView($this->_view);
+            $plugin->setOptions($this->getOptions());
             $plugin->preRender();
         }
     }
@@ -218,6 +221,7 @@ class Ingot_JQuery_JqGrid_Plugin_Broker extends Ingot_JQuery_JqGrid_Plugin_Abstr
         foreach ($this->_plugins as $plugin) {
             $plugin->setGridData($this->_gridData);
             $plugin->setView($this->_view);
+            $plugin->setOptions($this->getOptions());
             $plugin->postRender();
         }
     }
