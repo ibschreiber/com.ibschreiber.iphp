@@ -38,11 +38,11 @@ class Ingot_JQuery_JqGrid_Adapter_DbSelect extends Zend_Paginator_Adapter_DbSele
     /**
      * Sort the result set by a specified column.
      *
-     * @param string $field Column name
+     * @param Zend_Db_Expr $field Column name
      * @param string $direction Ascending (ASC) or Descending (DESC)
      * @return void
      */
-    public function sort($field, $direction)
+    public function sort(Zend_Db_Expr $field, $direction)
     {
         if (isset($field)) {
         	// Bypas becouse of the grouping
