@@ -87,8 +87,8 @@ class Ingot_JQuery_JqGrid {
 	 */
 	protected $_plugins;
 	
-	protected static $arrEvents = array ("afterShowForm", "unformat", "dataInit", "beforeShowForm", "afterSubmit", "afterInsertRow", "beforeRequest", "beforeSelectRow", "gridComplete", "loadBeforeSend", "loadComplete", "loadError", "onCellSelect", "ondblClickRow", "onHeaderClick", "onPaging", "onRightClickRow", "onSelectAll", "onSelectRow", "onSortCol", "resizeStart", "resizeStop", "serializeGridData" );
-	protected static $arrCallbacks = array ("custom_func" );
+	public static $arrEvents = array ("afterShowForm", "unformat", "dataInit", "beforeShowForm", "afterSubmit", "afterInsertRow", "beforeRequest", "beforeSelectRow", "gridComplete", "loadBeforeSend", "loadComplete", "loadError", "onCellSelect", "ondblClickRow", "onHeaderClick", "onPaging", "onRightClickRow", "onSelectAll", "onSelectRow", "onSortCol", "resizeStart", "resizeStop", "serializeGridData" );
+	public static $arrCallbacks = array ("custom_func" );
 	
 	private $_boolCustomJson = false;
 	
