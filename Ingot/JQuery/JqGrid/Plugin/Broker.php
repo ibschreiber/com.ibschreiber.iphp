@@ -225,4 +225,13 @@ class Ingot_JQuery_JqGrid_Plugin_Broker extends Ingot_JQuery_JqGrid_Plugin_Abstr
             $plugin->postRender();
         }
     }
+	
+	
+	public function getMethods(){
+		// Not Implimented
+	}
+	
+	public function getEvents(){
+		// Not Implimented
+	}
 }
