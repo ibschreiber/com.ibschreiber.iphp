@@ -163,4 +163,11 @@ class Ingot_JQuery_JqGrid_Plugin_FooterRow extends Ingot_JQuery_JqGrid_Plugin_Ab
             }
         }
     }
+	public function getMethods(){
+		// Not Implimented
+	}
+	
+	public function getEvents(){
+		// Not Implimented
+	}
 }
