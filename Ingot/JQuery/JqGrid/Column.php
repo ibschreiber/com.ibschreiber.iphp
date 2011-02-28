@@ -127,7 +127,14 @@ class Ingot_JQuery_JqGrid_Column {
 			throw new Ingot_JQuery_JqGrid_Exception ( 'The column name cannot be changed, as it has already been defined.' );
 		}
 		
-		$this->_options [$name] = $value;
+
+		$arrUnEscapeList = array_merge ( Ingot_JQuery_JqGrid::$arrEvents, Ingot_JQuery_JqGrid::$arrCallbacks );
+		
+		if (in_array ( $name, $arrUnEscapeList, true )) {
+			$this->_options [$name] = new Zend_Json_Expr($value);			
+		} else {
+			$this->_options [$name] = $value;
+		}
 		return $this;
 	}
 	
