@@ -87,11 +87,10 @@ class Ingot_JQuery_JqGrid {
 	 */
 	protected $_plugins;
 	
-	protected $_pagerClass = "Ingot_JQuery_JqGrid_Plugin_Pager";
-	
 	protected static $arrEvents = array ("afterShowForm", "unformat", "dataInit", "beforeShowForm", "afterSubmit", "afterInsertRow", "beforeRequest", "beforeSelectRow", "gridComplete", "loadBeforeSend", "loadComplete", "loadError", "onCellSelect", "ondblClickRow", "onHeaderClick", "onPaging", "onRightClickRow", "onSelectAll", "onSelectRow", "onSortCol", "resizeStart", "resizeStop", "serializeGridData" );
 	protected static $arrCallbacks = array ("custom_func" );
 	
+	private $_boolCustomJson = false;
 	
 	/**
 	 * Constructor.
@@ -101,21 +100,17 @@ class Ingot_JQuery_JqGrid {
 	 */
 	public function __construct($id, $adapter, array $options = array()) {
 		Zend_Paginator::addAdapterPrefixPath ( 'Ingot_JQuery_JqGrid_Adapter', 'Ingot/JQuery/JqGrid/Adapter' );
-		
 		$this->_plugins = new Ingot_JQuery_JqGrid_Plugin_Broker ();
 		$this->_plugins->setGrid ( $this );
-		
 		if ($adapter instanceof Ingot_JQuery_JqGrid_Adapter_Interface) {
 			$this->_adapter = $adapter;
 		} else {
 			throw new Ingot_JQuery_JqGrid_Exception ( 'Ingot_JQuery_JqGrid only accepts instances of the type ' . 'Ingot_JQuery_JqGrid_Adapter_Interface' );
 		}
 		$this->_id = $id;
-		
 		// Set grid options, automatically set the default options
 		// and over-ride with user options.
 		$this->_setDefaultOptions ();
-		
 		if (isset ( $options )) {
 			if ($options instanceof Zend_Config) {
 				$options = $options->toArray ();
@@ -125,8 +120,7 @@ class Ingot_JQuery_JqGrid {
 			}
 			$this->setOptions ( $options );
 		}
-		
-		$this->_plugins->registerPlugin ( new $this->_pagerClass () );
+		$this->_plugins->registerPlugin ( new Ingot_JQuery_JqGrid_Plugin_Pager () );
 	}
 	
 	/**
@@ -203,7 +197,15 @@ class Ingot_JQuery_JqGrid {
 	 * @return Ingot_JQuery_JqGrid
 	 */
 	public function setOption($name, $value) {
-		$this->_options [$name] = $value;
+	
+	
+		$arrUnEscapeList = array_merge ( Ingot_JQuery_JqGrid::$arrEvents, Ingot_JQuery_JqGrid::$arrCallbacks );
+		
+		if (in_array ( $name, $arrUnEscapeList, true )) {
+			$this->_options [$name] = new Zend_Json_Expr($value);			
+		} else {
+			$this->_options [$name] = $value;
+		}
 		return $this;
 	}
 	
@@ -287,6 +289,9 @@ class Ingot_JQuery_JqGrid {
 	 */
 	public function addColumn($column) {
 		$this->_columns [$column->getName ()] = $column;
+		$column->setGridId ($this->getId());
+		$column->runDecorate ();
+		
 		return $column;
 	}
 	
@@ -308,12 +313,12 @@ class Ingot_JQuery_JqGrid {
 		if (isset ( $this->_columns [$column] )) {
 			return $this->_columns [$column];
 		}
-		$objColumns = $this->getColumns();
+		$objColumns = $this->getColumns ();
 		
-		foreach ($objColumns as $objColumn){
-			$objColOptions = $objColumn-> getOptions();
+		foreach ( $objColumns as $objColumn ) {
+			$objColOptions = $objColumn->getOptions ();
 			
-			if (isset($objColOptions['index']) && $objColOptions['index']==$column){
+			if (isset ( $objColOptions ['index'] ) && $objColOptions ['index'] == $column) {
 				return $objColumn;
 			}
 		}
@@ -327,6 +332,7 @@ class Ingot_JQuery_JqGrid {
 	 * @return string
 	 */
 	public function render(Zend_View_Interface $view = null) {
+		
 		if (null !== $view) {
 			$this->setView ( $view );
 		}
@@ -384,8 +390,12 @@ class Ingot_JQuery_JqGrid {
 		
 		$this->_plugins->setGridData ( $data );
 		$this->_plugins->preResponse ();
-		
+				
 		return ZendX_JQuery::encodeJson ( $data );
+		
+
+		//return custom_json::encode ( $data );
+	
 	}
 	
 	/**
@@ -434,6 +444,7 @@ class Ingot_JQuery_JqGrid {
 	protected function _createGridData(Zend_Controller_Request_Abstract $request) {
 		// Instantiate Zend_Paginator with the required data source adaptor
 		if (! $this->_paginator instanceof Zend_Paginator) {
+			
 			$this->_paginator = new Zend_Paginator ( $this->_adapter );
 			$this->_paginator->setDefaultItemCountPerPage ( $request->getParam ( 'rows', $this->_defaultItemCountPerPage ) );
 		}
@@ -446,7 +457,7 @@ class Ingot_JQuery_JqGrid {
 		
 		// Sort items by the supplied column field
 		if ($request->getParam ( 'sidx' )) {
-			$this->_paginator->getAdapter ()->sort ( new Zend_Db_Expr($request->getParam ( 'sidx' )), $request->getParam ( 'sord', 'asc' ) );
+			$this->_paginator->getAdapter ()->sort ( $request->getParam ( 'sidx' ), $request->getParam ( 'sord', 'asc' ) );
 		}
 		
 		// Pass the current page number to paginator
@@ -461,6 +472,10 @@ class Ingot_JQuery_JqGrid {
 		$grid->records = $this->_paginator->getTotalItemCount ();
 		$grid->rows = array ();
 		
+		// :TODO Check 
+		//		Zend_Debug::dump($rows);
+		
+
 		foreach ( $rows as $k => $row ) {
 			
 			$strIdCol = $this->getIdCol ();
@@ -539,45 +554,155 @@ class Ingot_JQuery_JqGrid {
 	
 	public function encodeJsonOptions($arrProperties) {
 		
-		$arrUnEscapeList = array_merge ( Ingot_JQuery_JqGrid::$arrEvents, Ingot_JQuery_JqGrid::$arrCallbacks );
-		
+				
 		$strOptions = '';
 		
-		// Iterate over array
-		foreach ( ( array ) $arrProperties as $strPropertyKey => $mixProperty ) {
+		if ($this->isUseCustonJson() ){
+		
+			$arrUnEscapeList = array_merge ( Ingot_JQuery_JqGrid::$arrEvents, Ingot_JQuery_JqGrid::$arrCallbacks );
+		
+			// Iterate over array
+			foreach ( ( array ) $arrProperties as $strPropertyKey => $mixProperty ) {
 			
-			if (! empty ( $strOptions )) {
-				$strOptions .= ", ";
-			}
-			// Check that it's not one of the elements that needs escaiping 	
-			if (in_array ( $strPropertyKey, $arrUnEscapeList, true )) {
-				// This value does not need escaiping
-				$strOptions .= '"' . $strPropertyKey . '":' . $mixProperty;
-			} else {
-				if (is_array ( $mixProperty )) {
-					// Recursive call
-					$strOptions .= '"' . $strPropertyKey . '":' . $this->encodeJsonOptions ( $mixProperty );
-				} else {
-					$strOptions .= '"' . $strPropertyKey . '":' . ZendX_JQuery::encodeJson ( $mixProperty );
+				if (! empty ( $strOptions )) {
+					$strOptions .= ", ";
 				}
-			
+				// Check that it's not one of the elements that needs escaiping 	
+				if (in_array ( $strPropertyKey, $arrUnEscapeList, true )) {
+					// This value does not need escaiping
+					$strOptions .= '"' . $strPropertyKey . '":' . $mixProperty;
+				} else {
+					if (is_array ( $mixProperty )) {
+						// Recursive call
+						$strOptions .= '"' . $strPropertyKey . '":' . $this->encodeJsonOptions ( $mixProperty );
+					} else {
+						$strOptions .= '"' . $strPropertyKey . '":' . ZendX_JQuery::encodeJson ( $mixProperty );
+						//$strOptions .= '"' . $strPropertyKey . '":' . custom_json::encode ( $mixProperty );
+					}
+				
+				}
 			}
-		}
+			
+			$strOptions = "{" . $strOptions . "}";
 		
-		$strOptions = "{" . $strOptions . "}";
-		
+		} else {
+			$strOptions = Zend_Json::encode($arrProperties, false, array('enableJsonExprFinder' => true));
+		} 
 		return $strOptions;
 	}
 	
+	public function clearFilterParams($request){	
+		return $this->_getFilterParams($request);
+	}
+	
 	/**
-	 * Get Pager Object
-	 */
-	public function getPager(){
-		
-		$objPlugin = $this->getPlugin($this->_pagerClass);
-		
-		return $objPlugin;
+	*
+	* Use Local JSON class or not
+	*
+	* @param bool $boolFlag
+	* @return Ingot_JQuery_JqGrid
+	*/
+	public function setCustomJson($boolFlag = true){
+		$this->_boolCustomJson = $boolFlag;
+		return $this;
+	}
+	
+	/**
+	*
+	* Use Local JSON class or not
+	*
+	* @return bool
+	*/
+	public function isUseCustonJson(){
+		return $this->_boolCustomJson;
 	}
 
+}
+
+class custom_json {
+	
+	/**
+	 * Convert array to javascript object/array
+	 * :TODO Work with numbers
+	 * 
+	 * @param array $array the array
+	 * @return string
+	 */
+	public static function encode($array) {
+		
+		if (!is_array ( $array ) && !is_object ( $array )) {
+			$output = self::_val ( $array );
+		
+		} else {
+			
+			// determine type
+			if (is_numeric ( key ( $array ) )) {
+				
+				$last = sizeof ( $array ) - 1;
+				
+				// indexed (list)
+				$output = '[';
+				for($i = 0, $last = (sizeof ( $array ) - 1); isset ( $array [$i] ); ++ $i) {
+					if (is_array ( $array [$i] ))
+						$output .= self::encode ( $array [$i] );
+					else
+						$output .= self::_val ( $array [$i] );
+					if ($i !== $last)
+						$output .= ',';
+				}
+				$output .= ']';
+			
+			} else {
+				
+				// associative (object)
+				$output = '{';
+				$last = count ( $array ) - 1;
+				
+				$last = 0;
+				foreach ( $array as $key => $value ) {
+					$last ++;
+				
+				}
+				$last --;
+				
+				$i = 0;
+				foreach ( $array as $key => $value ) {
+					$output .= '"' . $key . '":';
+					if (is_array ( $value ))
+						$output .= self::encode ( $value );
+					else
+						$output .= self::_val ( $value );
+					if ($i !== $last)
+						$output .= ',';
+					++ $i;
+				}
+				$output .= '}';
+			
+			}
+		
+		}
+		
+		// return
+		return $output;
+	
+	}
+	
+	/**
+	 * [INTERNAL] Format value
+	 * @param mixed $val the value
+	 * @return string
+	 */
+	private static function _val($val) {
+		if (is_string ( $val )) {
+			return '"' . $val . '"';
+		} elseif (is_int ( $val )) {
+			return sprintf ( '%d', $val );
+		} elseif (is_float ( $val )) {
+			return sprintf ( '%F', $val );
+		} elseif (is_bool ( $val )) {
+			return ($val ? 'true' : 'false');
+		} else
+			return 'null';
+	}
 
 }
