@@ -26,7 +26,6 @@ class Ingot_JQuery_JqGrid_Plugin_FooterRow extends Ingot_JQuery_JqGrid_Plugin_Ab
     const MIN = 'MIN';
     const MAXIMUM = 'MAXIMUM';
     const MAX = 'MAX';
-    const VALUE = "VALUE";
 
     public function preRender()
     {
