@@ -142,24 +142,25 @@ abstract class Ingot_JQuery_JqGrid_Plugin_Abstract {
 		}
 		return $this;
 	}
-	
+		
 	/**
-	 * Set a single option
+	 * Set a single column option
 	 * 
 	 * @return Ingot_JQuery_JqGrid_Plugin_Abstract
 	 */
 	public function setOption($name, $value) {
-		if (is_array ( $value )) {
-			if (! empty ( $this->_options [$name] )) {
-				$this->_options [$name] = array_merge_recursive ( ( array ) $this->_options [$name], $value );
-			} else {				
-				$this->_options [$name] = $value;
-			}
+	
+	
+		$arrUnEscapeList = array_merge ( (array)$this->getMethods(), (array)$this->getEvents() );
+		
+		if (in_array ( $name, $arrUnEscapeList, true )) {
+			$this->_options [$name] = new Zend_Json_Expr($value);			
 		} else {
 			$this->_options [$name] = $value;
 		}
 		return $this;
 	}
+	
 	
 	/**
 	 * Get a single option
@@ -195,14 +196,55 @@ abstract class Ingot_JQuery_JqGrid_Plugin_Abstract {
 			}
 		}
 		
-		$objGrid = $this->getGrid ();
-		return $objGrid->encodeJsonOptions ( $arrData );
-		
-		return ZendX_JQuery::encodeJson ( $arrData );
+		$objGrid = $this->getGrid();
+		return $this->encodeJsonOptions($arrData);
 	}
+	
+	
+	public function encodeJsonOptions($arrProperties) {
+						
+		$strOptions = '';
+		
+		if ($this->getGrid()->isUseCustonJson() ){
+		
+			$arrUnEscapeList = array_merge ( (array)$this->getMethods(), (array)$this->getEvents() );
+		
+			// Iterate over array
+			foreach ( ( array ) $arrProperties as $strPropertyKey => $mixProperty ) {
+			
+				if (! empty ( $strOptions )) {
+					$strOptions .= ", ";
+				}
+				// Check that it's not one of the elements that needs escaiping 	
+				if (in_array ( $strPropertyKey, $arrUnEscapeList, true )) {
+					// This value does not need escaiping
+					$strOptions .= '"' . $strPropertyKey . '":' . $mixProperty;
+				} else {
+					if (is_array ( $mixProperty )) {
+						// Recursive call
+						$strOptions .= '"' . $strPropertyKey . '":' . $this->encodeJsonOptions ( $mixProperty );
+					} else {
+						$strOptions .= '"' . $strPropertyKey . '":' . ZendX_JQuery::encodeJson ( $mixProperty );
+					}
+				
+				}
+			}
+			
+			$strOptions = "{" . $strOptions . "}";
+		
+		} else {
+			$strOptions =  ZendX_JQuery::encodeJson ( $arrProperties );
+		} 
+		return $strOptions;
+	}
+	
+	
 	
 	abstract public function preResponse();
 	abstract public function postResponse();
 	abstract public function preRender();
 	abstract public function postRender();
+	
+	abstract public function getMethods();
+	abstract public function getEvents();
 }
