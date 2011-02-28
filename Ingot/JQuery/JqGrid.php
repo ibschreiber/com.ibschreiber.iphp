@@ -586,7 +586,7 @@ class Ingot_JQuery_JqGrid {
 			$strOptions = "{" . $strOptions . "}";
 		
 		} else {
-			$strOptions = Zend_Json::encode($arrProperties, false, array('enableJsonExprFinder' => true));
+			$strOptions =  ZendX_JQuery::encodeJson ( $arrProperties );
 		} 
 		return $strOptions;
 	}
