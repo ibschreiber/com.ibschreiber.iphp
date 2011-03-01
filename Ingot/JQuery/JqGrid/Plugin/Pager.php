@@ -166,4 +166,13 @@ class Ingot_JQuery_JqGrid_Plugin_Pager extends Ingot_JQuery_JqGrid_Plugin_Abstra
 		$this->registerAddEditOption("del");	
 	}
 	
+	public function getMethods(){
+		// Not Implimented
+	}
+	
+	public function getEvents(){
+		// Not Implimented
+	}
+	
+	
 }
