@@ -55,10 +55,12 @@ class Ingot_JQuery_JqGrid_Column {
 	 * Translates Label!
 	 */
 	private function prepareLabel(){
-		$objTranslate = Zend_Registry::get ( 'Zend_Translate' );
-		if (!empty($objTranslate)){
-			$this->_options ['label'] = $objTranslate->translate($this->_options ['label']);
-		}
+	    if(Zend_Registry::isRegistered('Zend_Translate')){
+    		$objTranslate = Zend_Registry::get ( 'Zend_Translate' );
+    		if (!empty($objTranslate)){
+    			$this->_options ['label'] = $objTranslate->translate($this->_options ['label']);
+    		}
+	    }
 	
 	}
 	
