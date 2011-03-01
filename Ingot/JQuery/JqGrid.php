@@ -87,6 +87,8 @@ class Ingot_JQuery_JqGrid {
 	 */
 	protected $_plugins;
 	
+	protected $_pagerClass = "Ingot_JQuery_JqGrid_Plugin_Pager";
+	
 	public static $arrEvents = array ("afterShowForm", "unformat", "dataInit", "beforeShowForm", "afterSubmit", "afterInsertRow", "beforeRequest", "beforeSelectRow", "gridComplete", "loadBeforeSend", "loadComplete", "loadError", "onCellSelect", "ondblClickRow", "onHeaderClick", "onPaging", "onRightClickRow", "onSelectAll", "onSelectRow", "onSortCol", "resizeStart", "resizeStop", "serializeGridData" );
 	public static $arrCallbacks = array ("custom_func" );
 	
@@ -120,7 +122,8 @@ class Ingot_JQuery_JqGrid {
 			}
 			$this->setOptions ( $options );
 		}
-		$this->_plugins->registerPlugin ( new Ingot_JQuery_JqGrid_Plugin_Pager () );
+		
+		$this->_plugins->registerPlugin ( new $this->_pagerClass () );
 	}
 	
 	/**
@@ -287,10 +290,10 @@ class Ingot_JQuery_JqGrid {
 	 * @param Ingot_JQuery_JqGrid_Column $column
 	 * @return Ingot_JQuery_JqGrid
 	 */
-	public function addColumn($column) {
+	public function addColumn( $column) {
 		$this->_columns [$column->getName ()] = $column;
-		$column->setGridId ($this->getId());
-		$column->runDecorate ();
+		//$column->setGridId ($this->getId());
+		//$column->runDecorate ();
 		
 		return $column;
 	}
@@ -457,7 +460,7 @@ class Ingot_JQuery_JqGrid {
 		
 		// Sort items by the supplied column field
 		if ($request->getParam ( 'sidx' )) {
-			$this->_paginator->getAdapter ()->sort ( $request->getParam ( 'sidx' ), $request->getParam ( 'sord', 'asc' ) );
+			$this->_paginator->getAdapter ()->sort ( new Zend_Db_Expr($request->getParam ( 'sidx' )), $request->getParam ( 'sord', 'asc' ) );
 		}
 		
 		// Pass the current page number to paginator
@@ -615,6 +618,17 @@ class Ingot_JQuery_JqGrid {
 	*/
 	public function isUseCustonJson(){
 		return $this->_boolCustomJson;
+	}
+	
+	
+	/**
+	 * Get Pager Object
+	 */
+	public function getPager(){
+		
+		$objPlugin = $this->getPlugin($this->_pagerClass);
+		
+		return $objPlugin;
 	}
 
 }
