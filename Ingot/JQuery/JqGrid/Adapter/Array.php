@@ -23,7 +23,7 @@ class Ingot_JQuery_JqGrid_Adapter_Array extends Zend_Paginator_Adapter_Array imp
     /**
      * Sort Array
      * 
-     * @param string $field
+     * @param Zend_Db_Expr $field
      * @param string $direction
      */
     public function sort(Zend_Db_Expr $field, $direction)

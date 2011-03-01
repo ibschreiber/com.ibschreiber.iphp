@@ -20,6 +20,10 @@ class Ingot_JQuery_JqGrid_Plugin_Pager extends Ingot_JQuery_JqGrid_Plugin_Abstra
 	
 	protected $_defaultPlugin = "pager";
 	
+	protected $_afterSubmitCode = 'function (data, postdata) { try { json = $.parseJSON(data.responseText); if (json.code == "ok"){ return [true,"",""]; } else { if (json.code == "error"){ return [false,json.msg,""]; } else { return [false,"Error Occured",""]; } } } catch (e) { result = data.responseText.split(":"); if ( result[0] != "OK") { if (result[1] != "") { return [false,result[1],""]; } else { return [false,result[0],""]; } } else { return [true,"",""]; } } }';
+
+	protected $_defaultAddEditConfig = array ("checkOnSubmit" => true, "reloadAfterSubmit" => true, "closeAfterAdd" => true, "closeAfterEdit" => true, "jqModal" => false, "closeOnEscape" => true );
+	
 	public function preRender() {
 		$pagerName = $this->_grid->getId () . '_pager';
 		
@@ -103,11 +107,63 @@ class Ingot_JQuery_JqGrid_Plugin_Pager extends Ingot_JQuery_JqGrid_Plugin_Abstra
 	
 	public function postResponse() { // Not implemented
 	}
-	public function getMethods(){
-		// Not Implimented
+	
+	/**
+	 * Register default After Submit action
+	 * 
+	 * @param string $strCode
+	 */
+	private function registerAfterSubmit($strCode){
+		
+		$this->setOption($this->_defaultPlugin, array($strCode => array('afterSubmit'=>$this->_afterSubmitCode)));
 	}
 	
-	public function getEvents(){
-		// Not Implimented
+	/**
+	 * Set JS for After Submit
+	 */
+	public function addAfterSubmit(){
+		$this->registerAfterSubmit("add");	
 	}
+	/**
+	 * Set JS for After Submit
+	 */
+	public function editAfterSubmit(){
+		$this->registerAfterSubmit("edit");	
+	}
+	/**
+	 * Set JS for After Submit
+	 */
+	public function delAfterSubmit(){
+		$this->registerAfterSubmit("del");	
+	}
+	
+	/**
+	 * Register default add/edit/del options
+	 * 
+	 * @param string $strCode
+	 */
+	private function registerAddEditOption($strCode){
+		$this->setOption( $this->_defaultPlugin , array($strCode=>$this->_defaultAddEditConfig));
+		$this->registerAfterSubmit($strCode);
+	}
+	
+	/**
+	 * Set JS for After Submit
+	 */
+	public function setDefaultAdd(){
+		$this->registerAddEditOption("add");	
+	}
+	/**
+	 * Set JS for After Submit
+	 */
+	public function setDefaultEdit(){
+		$this->registerAddEditOption("edit");	
+	}
+	/**
+	 * Set JS for After Submit
+	 */
+	public function setDefaultDel(){
+		$this->registerAddEditOption("del");	
+	}
+	
 }
